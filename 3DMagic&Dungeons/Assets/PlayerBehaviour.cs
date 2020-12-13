@@ -41,9 +41,11 @@ public class PlayerBehaviour : MonoBehaviour
             // forward move direction should only impact the movement vector if there is a vertical input
             // Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
 
-            Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
+            // Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
 
-            Vector3 inputVector = new Vector3(direction.x, 0, forwardMoveVector.z);
+            // Vector3 inputVector = new Vector3(direction.x, 0, forwardMoveVector.z);
+
+            Vector3 inputVector = Quaternion.AngleAxis(cam.eulerAngles.y, Vector3.up) * direction;
             controller.Move(inputVector * speed * Time.deltaTime);
             
         }
