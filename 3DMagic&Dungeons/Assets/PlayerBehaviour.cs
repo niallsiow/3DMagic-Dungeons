@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerBehaviour : MonoBehaviour
 {
     CharacterController controller;
@@ -13,6 +14,9 @@ public class PlayerBehaviour : MonoBehaviour
     public float turnSmoothTime;
     float turnSmoothVelocity;
 
+    public GameObject bulletPrefab;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -33,9 +38,24 @@ public class PlayerBehaviour : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            Vector3 inputVector = new Vector3(direction.x, 0, moveDirection.z);
-            controller.Move(moveDirection * speed * Time.deltaTime);
+            // forward move direction should only impact the movement vector if there is a vertical input
+            // Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
+
+            Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
+
+            Vector3 inputVector = new Vector3(direction.x, 0, forwardMoveVector.z);
+            controller.Move(inputVector * speed * Time.deltaTime);
+            
         }
+
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
+        }
+
     }
 }
