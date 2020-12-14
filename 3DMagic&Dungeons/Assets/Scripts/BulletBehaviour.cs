@@ -26,4 +26,10 @@ public class BulletBehaviour : MonoBehaviour
     {
         bulletTransform = inputTransform;
     }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Destroy(gameObject);
+    }
 }

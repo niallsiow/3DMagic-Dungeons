@@ -16,8 +16,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public GameObject bulletPrefab;
 
-
-    Vector3 firePosition;
+    public Transform firePosition;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +50,6 @@ public class PlayerBehaviour : MonoBehaviour
         // shoot when left click pressed
         if (Input.GetButtonDown("Fire1"))
         {
-            firePosition = transform.position + transform.forward;
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
@@ -63,17 +61,17 @@ public class PlayerBehaviour : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 hitPoint = hit.point;
-                bulletVector = (hitPoint - firePosition).normalized;
+                bulletVector = (hitPoint - firePosition.position).normalized;
 
-                GameObject bullet = (GameObject)Instantiate(bulletPrefab, firePosition, transform.rotation);
+                GameObject bullet = (GameObject)Instantiate(bulletPrefab, firePosition.position, transform.rotation);
                 bullet.GetComponent<BulletBehaviour>().SetTransform(bulletVector);
             }
             else
             {
                 hitPoint = ray.GetPoint(100);
-                bulletVector = (hitPoint - firePosition).normalized;
+                bulletVector = (hitPoint - firePosition.position).normalized;
 
-                GameObject bullet = (GameObject)Instantiate(bulletPrefab, firePosition, transform.rotation);
+                GameObject bullet = (GameObject)Instantiate(bulletPrefab, firePosition.position, transform.rotation);
                 bullet.GetComponent<BulletBehaviour>().SetTransform(bulletVector);
             }
 
