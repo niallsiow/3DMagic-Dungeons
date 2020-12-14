@@ -17,6 +17,8 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject bulletPrefab;
 
 
+    Vector3 firePosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // movement code
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -34,29 +36,48 @@ public class PlayerBehaviour : MonoBehaviour
 
         if(direction.magnitude >= 0.01f)
         {
+            // rotate the player towards camera position when forward pressed
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            // forward move direction should only impact the movement vector if there is a vertical input
-            // Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
-
-            // Vector3 forwardMoveVector = Quaternion.Euler(0f, cam.eulerAngles.y, 0f) * Vector3.forward * direction.z;
-
-            // Vector3 inputVector = new Vector3(direction.x, 0, forwardMoveVector.z);
-
+            // rotate input vector relative to camera position so player movement is relative to camera position
             Vector3 inputVector = Quaternion.AngleAxis(cam.eulerAngles.y, Vector3.up) * direction;
             controller.Move(inputVector * speed * Time.deltaTime);
             
         }
 
 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-
+        // shoot when left click pressed
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
+            firePosition = transform.position + transform.forward;
+
+            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            RaycastHit hit;
+
+
+            Vector3 hitPoint;
+            Vector3 bulletVector;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                hitPoint = hit.point;
+                bulletVector = (hitPoint - firePosition).normalized;
+
+                GameObject bullet = (GameObject)Instantiate(bulletPrefab, firePosition, transform.rotation);
+                bullet.GetComponent<BulletBehaviour>().SetTransform(bulletVector);
+            }
+            else
+            {
+                hitPoint = ray.GetPoint(100);
+                bulletVector = (hitPoint - firePosition).normalized;
+
+                GameObject bullet = (GameObject)Instantiate(bulletPrefab, firePosition, transform.rotation);
+                bullet.GetComponent<BulletBehaviour>().SetTransform(bulletVector);
+            }
+
+
         }
 
     }
