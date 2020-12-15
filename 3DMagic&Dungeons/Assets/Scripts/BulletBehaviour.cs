@@ -6,6 +6,7 @@ public class BulletBehaviour : MonoBehaviour
 {
 
     public float speed;
+    public float damage;
 
     Vector3 bulletTransform;
 
@@ -30,6 +31,11 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        GameObject otherCollider = collision.gameObject;
+        if (otherCollider.tag == "Enemy")
+        {
+            otherCollider.GetComponent<HealthSystem>().TakeDamage(damage);
+        }
         Destroy(gameObject);
     }
 }
