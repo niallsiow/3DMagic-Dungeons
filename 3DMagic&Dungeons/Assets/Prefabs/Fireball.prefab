@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4057517044247963459}
   - component: {fileID: 433084860735059680}
   - component: {fileID: 2353849533132436164}
-  - component: {fileID: 5656900137554945778}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -80,19 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &5656900137554945778
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076502004776938839}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4951836477090877961
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,9 +88,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4951836477090877960}
-  - component: {fileID: 2018982412340288462}
-  - component: {fileID: 4705637934050829734}
-  - component: {fileID: 7051525024101197536}
+  - component: {fileID: 843266649569172333}
+  - component: {fileID: 3253387597972509117}
+  - component: {fileID: -2613423032312344578}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -130,7 +116,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2018982412340288462
+--- !u!114 &843266649569172333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   damage: 5
---- !u!135 &4705637934050829734
+--- !u!135 &3253387597972509117
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,7 +143,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7051525024101197536
+--- !u!54 &-2613423032312344578
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3931,7 +3917,7 @@ ParticleSystem:
     subEmitters:
     - serializedVersion: 3
       emitter: {fileID: 0}
-      type: 0
+      type: 2
       properties: 0
       emitProbability: 1
   LightsModule:

@@ -10,10 +10,12 @@ public class BulletBehaviour : MonoBehaviour
 
     Vector3 bulletTransform;
 
+    bool collided = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -32,10 +34,14 @@ public class BulletBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         GameObject otherCollider = collision.gameObject;
-        if (otherCollider.tag == "Enemy")
+        if (otherCollider.tag == "Enemy" && collided == false)
         {
             otherCollider.GetComponent<HealthSystem>().TakeDamage(damage);
+            Debug.Log("enemy hit");
         }
+
+        collided = true;
+
         Destroy(gameObject);
     }
 }
