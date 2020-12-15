@@ -10,6 +10,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform cam;
 
     public float speed;
+    public float jumpHeight;
 
     public float turnSmoothTime;
     float turnSmoothVelocity;
@@ -17,6 +18,9 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject bulletPrefab;
 
     public Transform firePosition;
+
+
+    Vector3 playerVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
         // movement code
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
+
 
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
 
@@ -45,6 +50,22 @@ public class PlayerBehaviour : MonoBehaviour
             controller.Move(inputVector * speed * Time.deltaTime);
             
         }
+
+        // jumping and gravity application
+        float gravityValue = -9.81f;
+
+        if (controller.isGrounded == true)
+        {
+            playerVelocity.y = 0f;
+        }
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        if(Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            playerVelocity.y += jumpHeight;
+        }
+
+        controller.Move(playerVelocity * Time.deltaTime);
 
 
         // shoot when left click pressed
